@@ -9,6 +9,7 @@ export default function FormNames(){
     const [inputName, setName] = useState('')
     const [isEdit, setIsEdit] = useState('')
     const [id, setId] = useState('')
+    const [error, setError] = useState(null)
         
     
 
@@ -38,6 +39,7 @@ export default function FormNames(){
         };
         setListUsers([user, ...listUsers]); // push value to array
         setName('');
+        setError(null)
     }
 
     const addName = (event) => {
@@ -60,6 +62,7 @@ export default function FormNames(){
         if(!inputName.trim()){
             
             console.log('name is empty');
+            setError('name is empty')
             return false // exit function
         }
 
@@ -137,7 +140,15 @@ export default function FormNames(){
                             value={ isEdit ? 'Edit name' : 'Register name'}
 
                              />
+                             {
+                        error !== null ? (
+                            <div className="form-control alert alert-danger mt-1">
+                                {error}
+                            </div>
+                        ): <div></div>
+                    }
                     </form>
+                    
                 </div>
             </div>
         </div>
