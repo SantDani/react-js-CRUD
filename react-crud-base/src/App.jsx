@@ -1,5 +1,5 @@
 import './App.css';
-import FormNames from './components/FormNames'
+import FormNames from './components/FormNames/FormNames'
 
 function App() {
   return (
