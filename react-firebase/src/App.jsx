@@ -12,6 +12,7 @@ import Home from './components/Home';
 import Admin from './components/Admin';
 import Login from './components/Login';
 import Menu from './components/Menu';
+import AddProduct from './components/AddProduct';
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
       </Route>
       <Route path="/login" >
         <Login/>
+      </Route>
+      <Route path="/new-product" >
+        <AddProduct/>
       </Route>
     </Switch>
   </Router>
