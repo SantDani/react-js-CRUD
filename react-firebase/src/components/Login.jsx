@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import {useHistory} from 'react-router-dom'
 
 import { 
     getAuth, 
@@ -10,11 +11,13 @@ import "firebase/auth"
 
 
 export default function Login(){
+
     const [inputEmail, setInputEmail] = useState('santiago@gmail.com')
     const [inputPassword, setInputPassword] = useState('123456789')
     const [msgError, setMsgError] = useState('')
     const [waitingLogin, setWaitingLogin] = useState(false)
 
+    const history = useHistory();
     
     const registerUserWithEmail = (event) => {
         event.preventDefault();
@@ -22,9 +25,10 @@ export default function Login(){
         try {
             const auth = getAuth()
             createUserWithEmailAndPassword(auth, inputEmail, inputPassword).then((userCredential) =>{
-                const user = userCredential.user;
+                // const user = userCredential.user;
                 // console.log('log - user Register', user);
                 setMsgError('')
+                history.push('/')
             }).catch((e) => {
                 // const errorCode = e.code;
                 const errorMessage = e.message;
@@ -54,6 +58,7 @@ export default function Login(){
                     // Log when userCredential.operationType = signIn
                     setMsgError('')
                     setWaitingLogin(false)
+                    history.push('/')
                 }).catch((e) =>{
                     console.error(e);
                     setMsgError(formatMessageToFriendly(e.message))

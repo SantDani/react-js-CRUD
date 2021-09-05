@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {getAuth, onAuthStateChanged} from './../firebaseConfig'
+import {useHistory} from 'react-router-dom'
 
 const Menu = () => {
+    const history = useHistory()
     const [loggedUser, setLoggedUser] = useState(null)
+    const [loggedAdmin] = useState(null)
 
     useEffect(() =>{
         // in loggedUser save email if he is logged
@@ -13,7 +16,7 @@ const Menu = () => {
                 setLoggedUser(user.email)
             }
 
-            console.log('log - changes in user', user.email);
+            console.log('log - changes in user', user?.email);
         })
 
         
@@ -25,6 +28,7 @@ const Menu = () => {
             .then(() => {
                 // console.log('log - Sing Out OK!');
                 setLoggedUser(null)
+                history.push('/login')
             }).catch((e) => {
                 console.error(e);
                 // console.log('log - Sing Out FAIL');
@@ -38,12 +42,18 @@ const Menu = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="/">Home</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/login">Login</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/admin">Admin</Link>
-                    </li> 
+                    {
+                        !loggedUser && 
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/login">Login</Link>
+                            </li>
+                    }
+                    {   
+                        loggedAdmin && 
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin">Admin</Link>
+                            </li> 
+                    }
                     
                 </ul>
                 {
