@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import {getAuth, onAuthStateChanged} from './../firebaseConfig'
+
 const Menu = () => {
+    const [loggedUser, setLoggedUser] = useState(null)
+
+    useEffect(() =>{
+        // in loggedUser save email if he is logged
+        onAuthStateChanged(getAuth(), (user) =>{
+            if(user){
+                setLoggedUser(user.email)
+            }
+
+            console.log('log - changes in user', user);
+        })
+
+        
+        
+    }, [])
+
+    const logOut =() =>{
+        getAuth().signOut()
+            .then(() => {
+                console.log('Sing Out OK!');
+                setLoggedUser(null)
+            }).catch((e) => {
+                console.error(e);
+                console.log('Sing Out FAIL');
+            })
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -14,9 +43,17 @@ const Menu = () => {
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/admin">Admin</Link>
-                    </li>
+                    </li> 
                     
                 </ul>
+                {
+                    loggedUser && 
+                        <button
+                            className="btn btn-danger"
+                            onClick={logOut}>
+                            Log out
+                        </button>
+                }
             </nav>
         </div>
     );

@@ -1,38 +1,63 @@
 import { useState } from 'react'
 
-import { getAuth, createUserWithEmailAndPassword} from './../firebaseConfig.js'
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword
+ } from './../firebaseConfig.js'
 
 import "firebase/auth"
 
 
 export default function Login(){
-    const [inputEmail, setInputEmail] = useState('')
-    const [inputPassword, setInputPassword] = useState('')
+    const [inputEmail, setInputEmail] = useState('santiago@gmail.com')
+    const [inputPassword, setInputPassword] = useState('123456789')
     const [msgError, setMsgError] = useState('')
 
     
-    const registerUser = (event) => {
+    const registerUserWithEmail = (event) => {
         event.preventDefault();
-        console.log('log - register', inputEmail, inputPassword);
+        // console.log('log - register', inputEmail, inputPassword);
         try {
             const auth = getAuth()
             createUserWithEmailAndPassword(auth, inputEmail, inputPassword).then((userCredential) =>{
                 const user = userCredential.user;
-                console.log('user Register', user);
+                // console.log('log - user Register', user);
                 setMsgError('')
             }).catch((e) => {
                 // const errorCode = e.code;
                 const errorMessage = e.message;
                 // alert(errorMessage, errorCode);
                 console.error(e);
-                // flag g = global
-                // flag i = ignore case
-                const errorMessageFriendly = errorMessage.replace(/[^a-zA-Z ]|firebase|error|auth/gi, " ")
-                setMsgError(errorMessageFriendly )
+                
+                
+                setMsgError(formatMessageToFriendly(errorMessage))
 
             })
         } catch (e) {
             console.error(e);
+        }
+    }
+
+    const loginWithEmail  = (event) =>{
+        event.preventDefault()
+
+        try {
+            const auth = getAuth()
+            signInWithEmailAndPassword(auth, inputEmail, inputPassword)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+
+                    console.log('log - ', userCredential, user);
+                    // Log when userCredential.operationType = signIn
+                    setMsgError('')
+                }).catch((e) =>{
+                    console.error(e);
+                    setMsgError(formatMessageToFriendly(e.message))
+                })
+
+        } catch (e) {
+            console.error(e); 
         }
     }
     return(
@@ -56,9 +81,14 @@ export default function Login(){
                   
 
                     <button
-                        className="btn btn-dark btn-block form-control mt-4"
-                        onClick={(event) => {registerUser(event)}}>
+                        className="btn btn-secondary btn-block form-control mt-4"
+                        onClick={(event) => {registerUserWithEmail(event)}}>
                         Register
+                    </button>
+                    <button
+                        className="btn btn-dark btn-block form-control mt-4"
+                        onClick={(event) => {loginWithEmail(event)}}>
+                        Login
                     </button>
                     
                     {
@@ -70,4 +100,10 @@ export default function Login(){
             <div className="col"></div>
         </div>
     )
+
+    function formatMessageToFriendly(errorMessage) {
+        // flag g = global
+        // flag i = ignore case
+        return errorMessage.replace(/[^a-zA-Z ]|firebase|error|auth/gi, " ")
+    }
 }

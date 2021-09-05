@@ -4,7 +4,12 @@ import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 //https://firebase.google.com/docs/web/setup#available-services
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "firebase/auth";
 
 // Import SDK from file
 import {firebaseConfig} from './firebaseConfig.json'
@@ -14,4 +19,11 @@ import {firebaseConfig} from './firebaseConfig.json'
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-export {app, analytics, getAuth, createUserWithEmailAndPassword}
+export {
+  app,
+  analytics,
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+ }
