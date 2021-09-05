@@ -13,7 +13,7 @@ const Menu = () => {
                 setLoggedUser(user.email)
             }
 
-            console.log('log - changes in user', user);
+            console.log('log - changes in user', user.email);
         })
 
         
@@ -23,11 +23,11 @@ const Menu = () => {
     const logOut =() =>{
         getAuth().signOut()
             .then(() => {
-                console.log('Sing Out OK!');
+                // console.log('log - Sing Out OK!');
                 setLoggedUser(null)
             }).catch((e) => {
                 console.error(e);
-                console.log('Sing Out FAIL');
+                // console.log('log - Sing Out FAIL');
             })
     }
 
@@ -49,6 +49,10 @@ const Menu = () => {
                 {
                     loggedUser && 
                         <button
+                            style={{
+                                marginLeft: "auto",
+                                marginRight: "1rem"
+                            }}
                             className="btn btn-danger"
                             onClick={logOut}>
                             Log out

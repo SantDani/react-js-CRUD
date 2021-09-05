@@ -13,6 +13,7 @@ export default function Login(){
     const [inputEmail, setInputEmail] = useState('santiago@gmail.com')
     const [inputPassword, setInputPassword] = useState('123456789')
     const [msgError, setMsgError] = useState('')
+    const [waitingLogin, setWaitingLogin] = useState(false)
 
     
     const registerUserWithEmail = (event) => {
@@ -43,6 +44,7 @@ export default function Login(){
         event.preventDefault()
 
         try {
+            setWaitingLogin(true)
             const auth = getAuth()
             signInWithEmailAndPassword(auth, inputEmail, inputPassword)
                 .then((userCredential) => {
@@ -51,9 +53,11 @@ export default function Login(){
                     console.log('log - ', userCredential, user);
                     // Log when userCredential.operationType = signIn
                     setMsgError('')
+                    setWaitingLogin(false)
                 }).catch((e) =>{
                     console.error(e);
                     setMsgError(formatMessageToFriendly(e.message))
+                    setWaitingLogin(false)
                 })
 
         } catch (e) {
@@ -85,11 +89,28 @@ export default function Login(){
                         onClick={(event) => {registerUserWithEmail(event)}}>
                         Register
                     </button>
-                    <button
-                        className="btn btn-dark btn-block form-control mt-4"
-                        onClick={(event) => {loginWithEmail(event)}}>
-                        Login
-                    </button>
+
+                    
+                    {
+                        waitingLogin ? 
+                        (
+                            <button
+                                className="btn btn-light btn-block form-control mt-4">
+                                <div class="spinner-border text-dark" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </button>
+                            
+                            
+                        ) : 
+                        (
+                            <button
+                                className="btn btn-dark btn-block form-control mt-4"
+                                onClick={(event) => {loginWithEmail(event)}}>
+                                Login
+                            </button>
+                        )
+                    }
                     
                     {
                         msgError && <div className="alert alert-danger mt-2">{msgError}</div>
