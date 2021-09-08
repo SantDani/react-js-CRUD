@@ -12,7 +12,7 @@ import Home from './components/Home';
 import Admin from './components/Admin';
 import Login from './components/Login';
 import Menu from './components/Menu';
-import AddProduct from './components/AddProduct';
+import AddProduct from './components/AddProduct/AddProduct';
 
 function App() {
   return (
