@@ -46,12 +46,6 @@ const AddProduct = () => {
     const newProduct = async (e) => {
         e.preventDefault();
 
-        if(isEdit){
-            updateProduct()
-            return
-        }
-
-
         // console.log('log -', nameProduct, priceProduct);
         if(!nameProduct.trim()) {
             setMsgError('It is necessary to put the NAME of product')
@@ -61,6 +55,11 @@ const AddProduct = () => {
         if(!priceProduct.trim()) {
             setMsgError('It is necessary to put the PRICE of product')
             return;
+        }
+
+        if(isEdit){
+            updateProduct()
+            return
         }
 
         setMsgError('')
@@ -105,6 +104,8 @@ const AddProduct = () => {
             price: priceProduct
         })
         setIsEdit(false)
+        setNameProduct('')
+        setPriceProduct('')
 
         await getProducts();
 

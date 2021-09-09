@@ -45,6 +45,9 @@ const Menu = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="/new-product">New Product</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/detail-product">Detail Product</Link>
+                    </li>
                     
                     {
                         !loggedUser && 

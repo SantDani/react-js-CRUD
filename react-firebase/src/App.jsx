@@ -13,6 +13,7 @@ import Admin from './components/Admin';
 import Login from './components/Login';
 import Menu from './components/Menu';
 import AddProduct from './components/AddProduct/AddProduct';
+import DetailProduct from './components/DetailProduct';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       <Route path="/" component={Home} exact>
         
       </Route>
-      <Route path="/admin">
+      <Route path="/admin/:id">
         <Admin/>
       </Route>
       <Route path="/login" >
@@ -31,6 +32,13 @@ function App() {
       </Route>
       <Route path="/new-product" >
         <AddProduct/>
+      </Route>
+      <Route path="/detail-product/:id/:name/:cost" >
+        <DetailProduct/>
+      </Route>
+
+      <Route path="/detail-product" >
+        <DetailProduct/>
       </Route>
     </Switch>
   </Router>
